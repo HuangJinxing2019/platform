@@ -1,0 +1,40 @@
+package ${package}.entity.${module};
+
+import java.io.Serializable;
+import java.util.Date;
+import java.math.BigDecimal;
+import lombok.Data;
+
+/**
+ * ${comments}实体
+ * 表名 ${tableName}
+ *
+ * @author ${author}
+ * @email ${email}
+ * @date ${datetime}
+ */
+@Data
+public class ${className}Entity implements Serializable {
+    private static final long serialVersionUID = ${randomLong}L;
+
+    /** 枚举定义begin **/
+#foreach ($column in $columns)
+#if($column.type == 'enum')
+    // ${column.remark}枚举编码
+    public static final String ${column.upCode}_CODE = "${column.code}";
+#foreach ($label in $column.labelList)
+    // $column.remark【$label.value】
+    public static final int ${column.upCode}_${label.key} = ${label.key};
+#end
+#if($velocityCount != $columns.size())
+
+#end
+#end
+#end
+    /** 枚举定义end **/
+
+#foreach ($column in $columns)
+    // $column.comments
+    private $column.attrType $column.attrname;
+#end
+}
