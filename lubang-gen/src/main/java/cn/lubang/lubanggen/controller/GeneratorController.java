@@ -6,6 +6,7 @@ import cn.lubang.lubangcommon.utils.R;
 import cn.lubang.lubangcommon.xss.XssHttpServletRequestWrapper;
 import cn.lubang.lubanggen.dto.GeneratorDto;
 import cn.lubang.lubanggen.service.GeneratorService;
+import cn.lubang.lubanggen.service.TestService;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,7 +31,10 @@ import java.util.Map;
 @RequestMapping("/admin/sys/generator")
 public class GeneratorController {
     @Autowired
-    private GeneratorService GeneratorService;
+    private GeneratorService generatorService;
+
+    @Autowired
+    private TestService testService;
 
     /**
      * 列表
@@ -41,11 +45,9 @@ public class GeneratorController {
     public R list(@RequestParam Map<String, Object> params) {
         //查询列表数据
         Query query = new Query(params);
-        List<Map<String, Object>> list = GeneratorService.queryList(query);
-        int total = GeneratorService.queryTotal(query);
-
+        List<Map<String, Object>> list = generatorService.queryList(params);
+        int total = generatorService.queryTotal(query);
         PageUtils pageUtil = new PageUtils(list, total, query.getLimit(), query.getPage());
-
         return R.ok().put("page", pageUtil);
     }
 
@@ -59,7 +61,7 @@ public class GeneratorController {
         HttpServletRequest orgRequest = XssHttpServletRequestWrapper.getOrgRequest(request);
         // 获取请求对象
         GeneratorDto generatorDto = reqToDto(orgRequest);
-        byte[] data = GeneratorService.generatorCode(generatorDto);
+        byte[] data = generatorService.generatorCode(generatorDto);
 
         response.reset();
         response.setHeader("Content-Disposition", "attachment; filename=\"" + generatorDto.getTableNames() + "-AutoCode.zip\"");
@@ -80,5 +82,9 @@ public class GeneratorController {
         dto.setMenuName(request.getParameter("menuName"));
         dto.setParentId(request.getParameter("parentId"));
         return dto;
+    }
+    @RequestMapping("/genTest")
+    public Object genTest(){
+        return testService.queryList(null);
     }
 }

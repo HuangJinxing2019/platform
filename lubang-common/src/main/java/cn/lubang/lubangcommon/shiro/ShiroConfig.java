@@ -38,7 +38,7 @@ public class ShiroConfig {
          *      role: 该资源必须得到角色权限才可以访问
          */
         Map<String,String> filterMap = new LinkedHashMap<>();
-        filterMap.put("/", "anon");
+        filterMap.put("/login", "anon");
         filterMap.put("/**","authc");
         shiroFilterFactoryBane.setFilterChainDefinitionMap(filterMap);
 

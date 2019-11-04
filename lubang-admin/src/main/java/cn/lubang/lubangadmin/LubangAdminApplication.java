@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @SpringBootApplication
-@MapperScan({"cn.lubang.lubanggen.dao"})
+@MapperScan({"cn.lubang.*.dao"})
 @ComponentScan({"cn.lubang.lubangadmin","cn.lubang.lubanggen","cn.lubang.lubangcommon"})
 public class LubangAdminApplication {
 

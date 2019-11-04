@@ -17,8 +17,9 @@ public class ErrorController {
     public Object unauth(ServletResponse response){
         HttpServletResponse res = (HttpServletResponse)response;
         res.setHeader("Access-Control-Allow-Origin", "*");
-        Map<String,String> map = new HashMap<>();
-        map.put("message","未登录");
+        Map<String,Object> map = new HashMap<>();
+        map.put("errMsg","未登录");
+        map.put("status", 0);
         return map;
     }
 
