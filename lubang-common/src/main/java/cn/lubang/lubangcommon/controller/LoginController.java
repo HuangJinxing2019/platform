@@ -6,7 +6,10 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.subject.Subject;
+import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +27,10 @@ public class LoginController {
         Subject subject = SecurityUtils.getSubject();
 
         //封装用户数据
-        UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(),user.getPassword());
+        ByteSource byteSource = ByteSource.Util.bytes(user.getUsername()+"lubang");
+        Object obj = new SimpleHash("MD5", user.getPassword(), byteSource, 1024);
+
+        UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(),obj.toString());
         Map<String,Object> data = new HashMap<>();
         //执行登录方法
         try {

@@ -54,6 +54,10 @@ public class UserRealm extends AuthorizingRealm {
             //用户不存在
            return null;
         }
+        if(sysUserEntity.getStatus()==0){
+            //账户被禁用
+            throw new LockedAccountException();
+        }
         //判断密码
         return new SimpleAuthenticationInfo(sysUserEntity,sysUserEntity.getPassword(),"");
     }

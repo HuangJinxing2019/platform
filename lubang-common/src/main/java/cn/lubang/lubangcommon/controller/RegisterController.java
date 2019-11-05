@@ -57,4 +57,11 @@ public class RegisterController {
         map.put("errMsg", "注册成功");
         return map;
     }
+
+
+    public static void main(String[] args) {
+        ByteSource byteSource = ByteSource.Util.bytes("adminlubang");
+        Object obj = new SimpleHash("MD5", "admin", byteSource, 1024);
+        System.out.println(obj.toString());
+    }
 }
