@@ -25,4 +25,9 @@ public class SysUserServiceImpl implements SysUserService {
 
         return sysUserDao.queryList(params);
     }
+
+    @Override
+    public int save(SysUserEntity sysUserEntity) {
+        return sysUserDao.save(sysUserEntity);
+    }
 }

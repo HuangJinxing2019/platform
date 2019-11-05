@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 @Repository
-public interface SysUserDao {
+public interface SysUserDao extends BaseDao<SysUserEntity>{
     SysUserEntity queryObject(String username);
     List<SysUserEntity> queryList(Map<String,Object> params);
 }

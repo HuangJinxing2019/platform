@@ -2,10 +2,13 @@ package cn.lubang.lubangcommon.shiro;
 
 import cn.lubang.lubangcommon.entity.SysUserEntity;
 import cn.lubang.lubangcommon.service.SysUserService;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -23,8 +26,15 @@ public class UserRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        System.out.println("执行逻辑");
-        return null;
+        System.out.println("授权逻辑");
+        SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
+
+        //获取登录用户信息
+        Subject subject = SecurityUtils.getSubject();
+        SysUserEntity user = (SysUserEntity) subject.getPrincipal();
+
+
+        return info;
     }
 
     /**
@@ -42,8 +52,9 @@ public class UserRealm extends AuthorizingRealm {
 
         if(sysUserEntity==null){
             //用户不存在
+           return null;
         }
         //判断密码
-        return new SimpleAuthenticationInfo("",sysUserEntity.getPassword(),"");
+        return new SimpleAuthenticationInfo(sysUserEntity,sysUserEntity.getPassword(),"");
     }
 }

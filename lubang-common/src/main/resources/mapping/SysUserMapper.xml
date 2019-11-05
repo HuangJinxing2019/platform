@@ -14,6 +14,9 @@
         *
         from sys_user
         where 1=1
+        <if test="mobile !=null and mobile.trim()!=''">
+           and mobile = #{mobile}
+        </if>
     </select>
     <select id="queryObject" resultMap="userMap">
         select
@@ -24,4 +27,20 @@
            and username = #{username}
         </if>
     </select>
+
+    <insert id="save" parameterType="cn.lubang.lubangcommon.entity.SysUserEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_user(
+			`username`,
+			`password`,
+			`mobile`,
+			`status`,
+			`create_time`)
+		values(
+			#{username},
+			#{password},
+			#{mobile},
+			#{status},
+			#{createTime})
+	</insert>
+
 </mapper>
